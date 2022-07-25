@@ -34,7 +34,7 @@ export default function NewsCard({
                 </p>
               </div>
             </div>
-            <Link to="/readnews" className="stretched-link"/>
+            <Link to="/readnews"  className="stretched-link"/>
           </div>
         </div>
     </>
