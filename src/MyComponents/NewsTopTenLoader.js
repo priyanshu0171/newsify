@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import NewsCard from "./UIComponents/NewsCard";
 import { Link } from "react-router-dom";
+import React from "react";
 
 export default function NewsTopTenLoader() {
   const [data, setData] = useState(null);
@@ -8,7 +9,7 @@ export default function NewsTopTenLoader() {
   const [error, setError] = useState(null);
   useEffect(() => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=in&apiKey=69176d80491a48f3a34d45200430acc0`
+      `https://newsdata.io/api/1/news?apikey=pub_95704bc0e29bdeac594059d65f3ad64837da&q=trending`
     )
       .then((response) => {
         if (!response.ok) {
@@ -19,8 +20,9 @@ export default function NewsTopTenLoader() {
         return response.json();
       })
       .then((actualData) => {
-        var dataArr = actualData.articles;
-        setData(dataArr);
+        
+        var dataArr = actualData.results;
+        setData(dataArr.filter(Boolean));
         setError(null);
       })
       .catch((err) => {
@@ -46,24 +48,27 @@ export default function NewsTopTenLoader() {
         <div className="row">
           {data &&
             data
-              .slice(0, 10)
+              .filter(data => data.image_url !== null || data.content !== null)
               .map(
                 ({
-                  source,
-                  author,
+                  source_id,
                   description,
                   title,
-                  urlToImage,
-                  publishedAt,
+                  image_url,
+                  pubDate,
+                  content,
+                  link
                 }) => (
-                  <div className="col-md-9 ps-0 my-1" key={urlToImage}>
+                  <div className="col-md-9 ps-0 my-1" key={image_url}>
                     <NewsCard
-                      urlToImage={urlToImage}
-                      source={source.name}
+                      urlToImage={image_url}
+                      source={source_id}
                       desc={description}
                       heading={title}
-                      author={author}
-                      posted={publishedAt}
+                      author={source_id}
+                      posted={pubDate}
+                      content={content}
+                      url={link}
                     />
                   </div>
                 )

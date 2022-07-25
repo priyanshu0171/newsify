@@ -17,7 +17,7 @@ function Navbar(props) {
   return (
     <>
       <div className="container-fluid bg-dark">
-        <nav className="navbar container navbar-expand-lg bg-dark navbar-dark">
+        <nav className="navbar sticky-top container navbar-expand-lg bg-dark navbar-dark">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">
               <span className="text-danger">Newsi</span>fy
