@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import NewsCard from "./UIComponents/NewsCard";
+import { Link } from "react-router-dom";
 
 export default function NewsTopTenLoader() {
   const [data, setData] = useState(null);
@@ -7,7 +8,7 @@ export default function NewsTopTenLoader() {
   const [error, setError] = useState(null);
   useEffect(() => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=69176d80491a48f3a34d45200430acc0`
+      `https://newsapi.org/v2/top-headlines?country=in&apiKey=69176d80491a48f3a34d45200430acc0`
     )
       .then((response) => {
         if (!response.ok) {
@@ -33,9 +34,9 @@ export default function NewsTopTenLoader() {
   return (
     <>
       <div className="container mt-4 p-4">
-        <h3>Top 10 Business News</h3>
+        <h3>Trending Now</h3>
         {loading && (
-          <div className="center">
+          <div className="">
             <div className="spinner-border"></div>
           </div>
         )}
@@ -46,19 +47,31 @@ export default function NewsTopTenLoader() {
           {data &&
             data
               .slice(0, 10)
-              .map(({ source, author, description, title, urlToImage, publishedAt }) => (
-                <div className="col-md-9 ps-0 my-1" key={Math.random()}>
-                  <NewsCard
-                    urlToImage={urlToImage}
-                    source={source.name}
-                    desc={description}
-                    heading={title}
-                    author={author}
-                    posted={publishedAt}
-                    
-                  />
-                </div>
-              ))}
+              .map(
+                ({
+                  source,
+                  author,
+                  description,
+                  title,
+                  urlToImage,
+                  publishedAt,
+                }) => (
+                  <div className="col-md-9 ps-0 my-1" key={urlToImage}>
+                    <NewsCard
+                      urlToImage={urlToImage}
+                      source={source.name}
+                      desc={description}
+                      heading={title}
+                      author={author}
+                      posted={publishedAt}
+                    />
+                  </div>
+                )
+              )}
+
+          <Link className="" to="allnews">
+            Load More
+          </Link>
         </div>
       </div>
     </>
